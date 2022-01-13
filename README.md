@@ -30,3 +30,5 @@ where makes sense. We want to see that you can create an easy-to-maintain codeba
 * **Testing** Try to create tests covering the main functionalities of your code. Feel free to create both unit tests and functional tests.
 * **Documentation** The CEO has a non-tech background so try to explain your decisions, 
 as well as any other technical requirement (how to run the API, external dependencies, etc ...)
+
+...
