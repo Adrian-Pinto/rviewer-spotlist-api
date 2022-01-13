@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Rviewer nodejs challenge",
   "main": "src/index.js",
+  "type": "module",
   "directories": {
     "doc": "doc"
   },
