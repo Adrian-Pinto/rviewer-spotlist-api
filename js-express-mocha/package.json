@@ -7,17 +7,26 @@
     "doc": "doc"
   },
   "scripts": {
+    "start": "node src",
+    "dev": "nodemon src",
     "test": "mocha src/test",
     "integration": "cypress run"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ajv": "^6.12.6",
     "chai": "^4.3.3",
     "express": "^4.17.1",
-    "mocha": "^8.3.1"
+    "lowdb": "^3.0.0",
+    "mocha": "^8.3.1",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "cypress": "^7.1.0"
+    "cypress": "^7.1.0",
+    "eslint": "^8.6.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "nodemon": "^2.0.15"
   }
 }
