@@ -11,12 +11,12 @@ export default async (req, res, next) => {
       'base64',
     ).toString('ascii').split(':');
 
-  if (authorization && userSchema({ name, password })) {
+  if (authorization && userSchema({ userId, name, password })) {
     const hashPassword = doHash(password);
     const isUser = db.data.users.find((user) => user.id === userId);
 
-    if (!isUser) res.tatus(401).send('User not found with this id (or user is not the one authenticated)');
-    if (isUser.password === hashPassword) next();
+    if (!isUser) res.status(401).send('User not found with this id (or user is not the one authenticated)');
+    if (isUser?.password === hashPassword) next();
   } else {
     res.status(400).send('Invalid parameters');
   }
