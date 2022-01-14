@@ -8,6 +8,8 @@ import './config/lowdbConfig.js';
 const api = express();
 const port = 3001;
 
+api.disable('x-powered-by');
+
 api.use(morgan('dev'));
 api.use(express.json());
 
