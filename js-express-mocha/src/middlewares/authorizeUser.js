@@ -16,7 +16,10 @@ export default async (req, res, next) => {
     const isUser = db.data.users.find((user) => user.id === userId);
 
     if (!isUser) res.status(401).send('User not found with this id (or user is not the one authenticated)');
-    if (isUser?.password === hashPassword) next();
+    if (isUser?.password === hashPassword) {
+      req.userObject = isUser;
+      next();
+    }
   } else {
     res.status(400).send('Invalid parameters');
   }
