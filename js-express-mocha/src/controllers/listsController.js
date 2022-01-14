@@ -67,6 +67,7 @@ const postNewUserList = (req, res) => {
         };
         db.data.sogns.push(isSogn);
       }
+
       return isSogn;
     });
 
@@ -74,11 +75,11 @@ const postNewUserList = (req, res) => {
       listId,
       userId: userObject.id,
       name,
-      sogns: sognsId,
+      sogns: sognsId || [],
     });
 
     status = 200;
-    message = 'ok';
+    message = 'OK';
 
     db.write();
   }
