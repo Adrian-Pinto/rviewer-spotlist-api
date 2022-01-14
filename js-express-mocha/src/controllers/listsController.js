@@ -4,13 +4,14 @@ import db from '../config/lowdbConfig.js';
 
 const getAllUserList = (req, res) => {
   const { userObject } = req;
-  const userLists = userObject.lists.reduce((consult, { listId }) => {
+
+  const userLists = userObject?.lists?.reduce((consult, { listId }) => {
     const temp = db.data.lists.find((dbList) => dbList.listId === listId);
     if (temp) consult.push(temp);
     return consult;
   }, []);
 
-  if (!userLists.lenght) {
+  if (!userLists?.lenght) {
     res.status(200).json({
       lists: userLists,
     });
@@ -21,7 +22,8 @@ const getAllUserList = (req, res) => {
 
 const getUserListById = (req, res) => {
   const { userObject, params } = req;
-  const isUserList = userObject.lists.find((list) => list.listId === params.listId);
+
+  const isUserList = userObject?.lists?.find((list) => list.listId === params.listId);
 
   if (!isUserList) {
     res.sendStatus(401);
@@ -35,10 +37,17 @@ const getUserListById = (req, res) => {
 const postNewUserList = (req, res) => {
   const { userObject, body } = req;
   const { name, sogns } = body;
+  let status;
+  let message;
 
   if (!userObject?.lists) userObject.lists = [];
 
   const isList = userObject.lists.find((list) => list.name === name);
+
+  if (isList) {
+    status = 409;
+    message = 'the list already exists';
+  }
 
   if (!isList && listSchema(body)) {
     const listId = generateId();
@@ -63,13 +72,17 @@ const postNewUserList = (req, res) => {
 
     db.data.lists.push({
       listId,
+      userId: userObject.id,
       name,
       sogns: sognsId,
     });
 
+    status = 200;
+    message = 'ok';
+
     db.write();
   }
-  res.sendStatus(200);
+  res.status(status).send(message);
 };
 
 export default {
