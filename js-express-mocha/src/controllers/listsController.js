@@ -4,7 +4,18 @@ import db from '../config/lowdbConfig.js';
 
 const getAllUserList = () => console.log('fetch all user lists');
 
-const getUserListById = () => console.log('fetch user listsId');
+const getUserListById = (req, res) => {
+  const { userObject, params } = req;
+  const isUserList = userObject.lists.find((list) => list.listId === params.listId);
+
+  if (!isUserList) {
+    res.sendStatus(401);
+  } else {
+    const listById = db.data.lists.find((list) => isUserList.listId === list.listId);
+
+    res.status(200).json(listById);
+  }
+};
 
 const postNewUserList = (req, res) => {
   const { userObject, body } = req;
