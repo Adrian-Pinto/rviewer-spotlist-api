@@ -2,7 +2,7 @@ import { stdout } from 'process';
 import express from 'express';
 import morgan from 'morgan';
 import listsRouter from './routes/listsRouter.js';
-// todo import sognsRouter from './controllers/sognsRouter.js';
+import sognsRouter from './routes/sognsRouter.js';
 import './config/lowdbConfig.js';
 
 const api = express();
@@ -12,7 +12,7 @@ api.use(morgan('dev'));
 api.use(express.json());
 
 api.use('/api/v1/users', listsRouter);
-// todo api.use('/api/v1/users', sognsRouter);
+api.use('/api/v1/users', sognsRouter);
 
 api.listen(
   port,
