@@ -11,7 +11,23 @@ const schema = {
     sogns: {
       type: 'array',
       contains: [
-        { type: 'object' },
+        {
+          type: 'object',
+          properties: {
+            artist: {
+              type: 'string',
+              minLength: 1,
+            },
+            title: {
+              type: 'string',
+              minLength: 1,
+            },
+          },
+          required: [
+            'artist',
+            'title',
+          ],
+        },
       ],
       minContains: 1,
     },
