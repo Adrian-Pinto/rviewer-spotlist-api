@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node src",
-    "dev": "nodemon src --ignore database/db.json",
+    "dev": "nodemon src --ignore ./database/db.json",
     "test": "mocha src/test",
     "integration": "cypress run"
   },

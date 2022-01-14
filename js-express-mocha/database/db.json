@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "id": "4804ca-a41271d2c29d-7748e5",
+      "name": "Jhon Smith",
+      "password": "2f87b664ae75c374f6dfccd1af0fad6160d18394bcb416703e2b88f037796d27"
+    },
+    {
+      "id": "724dc5-dc682772780f-b2d57c",
+      "name": "Laurel Fitz",
+      "password": "0d5673491c347d4e99a3b47df481d9d38aef51a961849fd8d00c906a68cf8abe"
+    },
+    {
+      "id": "4b26b8-b52a5c1e0ab5-b68956",
+      "name": "Daniel Schmitz",
+      "password": "1cee46ed54fa05f3cf04aa29e845d203e83e5deffb189e841557e42dd9482dda"
+    }
+  ],
+  "lists": [],
+  "sogns": []
+}
