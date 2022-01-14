@@ -2,7 +2,22 @@ import generateId from '../utils/generateId.js';
 import listSchema from '../models/listsModel.js';
 import db from '../config/lowdbConfig.js';
 
-const getAllUserList = () => console.log('fetch all user lists');
+const getAllUserList = (req, res) => {
+  const { userObject } = req;
+  const userLists = userObject.lists.reduce((consult, { listId }) => {
+    const temp = db.data.lists.find((dbList) => dbList.listId === listId);
+    if (temp) consult.push(temp);
+    return consult;
+  }, []);
+
+  if (!userLists.lenght) {
+    res.status(200).json({
+      lists: userLists,
+    });
+  } else {
+    res.status(401).send('no results');
+  }
+};
 
 const getUserListById = (req, res) => {
   const { userObject, params } = req;
