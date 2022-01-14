@@ -1,6 +1,7 @@
 import { stdout } from 'process';
 import express from 'express';
 import morgan from 'morgan';
+import './config/lowdbConfig.js';
 
 const api = express();
 const port = 3001;
