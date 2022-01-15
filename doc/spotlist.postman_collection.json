@@ -1,0 +1,257 @@
+{
+	"info": {
+		"_postman_id": "d8b63424-ce07-4554-bac6-ef7c6817802f",
+		"name": "spotlist",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Jhon Smith",
+			"item": [
+				{
+					"name": "/lists",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{jhon_smith}}/lists",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{jhon_smith}}",
+								"lists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/lists - Only name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test_list\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{jhon_smith}}/lists",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{jhon_smith}}",
+								"lists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/lists - name + sogns 01",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test_list\",\n    \"sogns\": [\n        {\n            \"artist\": \"Kyary Pamyu Pamyu\",\n            \"title\": \"PONPONPON\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{jhon_smith}}/lists",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{jhon_smith}}",
+								"lists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/lists - name + sogns 02",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test_list-02\",\n    \"sogns\": [\n        {\n            \"artist\": \"Dropkick Murphys\",\n            \"title\": \"i'm shipping up to boston\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{jhon_smith}}/lists",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{jhon_smith}}",
+								"lists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/lists/:listId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{jhon_smith}}/lists/5d4968-802cf683af23-ad1c67",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{jhon_smith}}",
+								"lists",
+								"5d4968-802cf683af23-ad1c67"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/lists/:listId/sogns - PONPONPON",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"artist\": \"Kyary Pamyu Pamyu\",\n    \"title\": \"PONPONPON\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{jhon_smith}}/lists/5d4968-802cf683af23-ad1c67/sogns",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{jhon_smith}}",
+								"lists",
+								"5d4968-802cf683af23-ad1c67",
+								"sogns"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/lists/:listId/sogns - i'm shipping up to boston",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"artist\": \"Dropkick Murphys\",\n    \"title\": \"i'm shipping up to boston\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{jhon_smith}}/lists/5d4968-802cf683af23-ad1c67/sogns",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{jhon_smith}}",
+								"lists",
+								"5d4968-802cf683af23-ad1c67",
+								"sogns"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "username",
+						"value": "Jhon Smith",
+						"type": "string"
+					},
+					{
+						"key": "password",
+						"value": "unsecuredpassword1234",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "localhost:3001/api/v1/users",
+			"type": "string"
+		},
+		{
+			"key": "jhon_smith",
+			"value": "4804ca-a41271d2c29d-7748e5",
+			"type": "string"
+		}
+	]
+}
