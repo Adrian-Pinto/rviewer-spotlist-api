@@ -10,24 +10,27 @@
   "scripts": {
     "start": "node src",
     "dev": "nodemon src --ignore ./database/db.json",
-    "test": "mocha src/test",
+    "test": " nyc mocha src/test",
     "integration": "cypress run"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "ajv": "^6.12.6",
-    "chai": "^4.3.3",
+    "c8": "^7.11.0",
     "express": "^4.17.1",
     "lowdb": "^3.0.0",
-    "mocha": "^8.3.1",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "chai": "^4.3.3",
+    "chai-http": "^4.3.0",
     "cypress": "^7.1.0",
     "eslint": "^8.6.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
-    "nodemon": "^2.0.15"
+    "mocha": "^8.3.1",
+    "nodemon": "^2.0.15",
+    "sinon": "^12.0.1"
   }
 }
