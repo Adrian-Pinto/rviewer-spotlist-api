@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node src",
     "dev": "nodemon src --ignore ./database/db.json",
-    "test": " nyc mocha src/test",
+    "test": "c8 mocha src/** --NODE_ENV=test --exit",
     "integration": "cypress run"
   },
   "author": "",
