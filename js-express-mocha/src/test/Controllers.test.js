@@ -11,19 +11,52 @@ db.data = JSON.parse(readFileSync(new URL('./test.db/testDb.json', import.meta.u
 // todo - Check if utils pass coverage with these tests
 
 describe('Testing endpoints', () => {
+  const host = 'localhost:3001';
+  const jhonSmithPATH = '/api/v1/users/4804ca-a41271d2c29d-7748e5/lists';
+
   describe('Given: A User call API with incorrect auth', () => {
-    it('When: User call end point with unexisting UserId', {
-      // Then: Return  status code 401
-      //   -: Return 'User not found with this id'
+    const notJhonPATH = '/api/v1/users/000000-111111111111-000000/lists';
+
+    describe('When: User call end point with unexisting UserId', () => {
+      it(`Then: Return status code 401
+             -: Return 'User not found with this id (or user is not the one authenticated)'`, (done) => {
+        chai.request(host)
+          .get(notJhonPATH)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(401)
+              .to.have.property('text').to.be.equal('User not found with this id (or user is not the one authenticated)');
+            done();
+          });
+      });
     });
-    it('When: User call end point with empty headers.autherization', () => {
-      // Then: Return  status code 400
-      //    -: Return 'Invalid parameters'
+    describe('When: User call end point with empty headers.authorization', () => {
+      it(`Then: Return status code 400
+             -: Return 'Invalid parameters'`, (done) => {
+        chai.request(host)
+          .get(jhonSmithPATH)
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(400)
+              .to.have.property('text').to.be.equal('Invalid parameters');
+            done();
+          });
+      });
     });
-    it('When: User call end point with existing UserId', () => {
-      it('But: Incorrect password', () => {
-        // Then: Return  status code 400
-        //    -: Return 'Invalid parameters'
+    describe(`When: User call end point with existing UserId
+      But: Incorrect password send`, () => {
+      it(`Then: Return status code 400
+             -: Return 'Invalid password'`, (done) => {
+        chai.request(host)
+          .get(jhonSmithPATH)
+          .auth('Jhon Smith', 'incorrect')
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(400)
+              .to.have.property('text').to.be.equal('Invalid password');
+            done();
+          });
       });
     });
   });
@@ -114,17 +147,5 @@ describe('Testing endpoints', () => {
         //    -: Database collection increase in number of songs send
       });
     });
-  });
-});
-
-describe('chaiHttp', () => {
-  it('On use', (done) => {
-    chai.request('localhost:3001')
-      .get('/api/v1/users/4804ca-a41271d2c29d-7748e5/lists')
-      .auth('user', 'unsecuredpassword1234')
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        done();
-      });
   });
 });
