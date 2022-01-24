@@ -20,6 +20,7 @@ export default async (req, res, next) => {
       req.userObject = isUser;
       next();
     }
+    res.status(400).send('Invalid parameters');
   } else {
     res.status(400).send('Invalid parameters');
   }
