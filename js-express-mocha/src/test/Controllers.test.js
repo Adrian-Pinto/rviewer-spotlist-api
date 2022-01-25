@@ -12,6 +12,7 @@ db.data = JSON.parse(readFileSync(new URL('./test.db/testDb.json', import.meta.u
 describe('Testing endpoints', () => {
   const host = 'localhost:3001';
   const jhonSmithPATH = '/api/v1/users/4804ca-a41271d2c29d-7748e5/lists';
+  const danielschmitzPATH = '/api/v1/users/4b26b8-b52a5c1e0ab5-b68956/lists';
   const existingListId = '/5d4968-802cf683af23-ad1c67/';
   const secondListId = '/aa0b1f-3f0a79b53fa3-54e8a8/';
   const unexistingListId = '/000000-111111111111-000000/';
@@ -75,6 +76,22 @@ describe('Testing endpoints', () => {
             expect(res)
               .to.have.status(200)
               .to.have.property('body').to.have.property('lists');
+            done();
+          });
+      });
+    });
+
+    describe(`When: GET /lists
+      And: User don't have a lists`, () => {
+      it(`Then: Return status code 401
+             -: Return 'no results'`, (done) => {
+        chai.request(host)
+          .get(danielschmitzPATH)
+          .auth('Daniel Schmitz', 'qwertyqwerty')
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(401)
+              .to.have.property('text').to.be.equal('no results');
             done();
           });
       });
