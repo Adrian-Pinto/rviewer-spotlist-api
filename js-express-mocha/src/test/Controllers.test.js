@@ -2,6 +2,7 @@ import { readFileSync } from 'fs';
 import { describe } from 'mocha';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
+import generateId from '../utils/generateId.js';
 import db from '../config/lowdbConfig.js';
 
 chai.use(chaiHttp);
@@ -61,33 +62,89 @@ describe('Testing endpoints', () => {
     });
   });
 
-  describe('Given: A User X call /lists/ end point', () => {
-    it('When: GET /lists', () => {
-      it('And: Use correct auth', () => {
-        // Then: Return status code 200
-        //    -: Return all User X Songs lists
+  describe('Given: A User Jhon Smith call /lists/ end point', () => {
+    describe(`When: GET /lists
+      And: Use correct auth`, () => {
+      it(`Then: Return status code 200
+             -: Return all User Jhon Smith Songs lists`, (done) => {
+        chai.request(host)
+          .get(jhonSmithPATH)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(200)
+              .to.have.property('body').to.have.property('lists');
+            done();
+          });
       });
     });
-    it('When: POST /lists', () => {
-      it('And: User have a list with same name', () => {
-        // Then: Return status 409
-        //    -: Return 'The list already exists'
+
+    describe(`When: POST /lists
+      And: User have a list with same name`, () => {
+      it(`Then: Return status 409
+             -: Return 'The list already exists'`, (done) => {
+        chai.request(host)
+          .post(jhonSmithPATH)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .send({ name: 'test_list' })
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(409)
+              .to.have.property('text').to.be.equal('the list already exists');
+            done();
+          });
       });
     });
-    it('When: POST /lists', () => {
-      it('And: send list pass Schema validation', () => {
-        // Then: Return status 200
-        //    -: Return 'ok'
-        //    -: Now user have a new list
-        //    -: New list have a songs
+
+    describe(`When: POST /lists
+      And: send a list pass Schema validation`, () => {
+      it(`Then: Return status 200
+             -: Now user have a new list
+             -: New list have a sogns`, (done) => {
+        chai.request(host)
+          .post(jhonSmithPATH)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .send({
+            name: generateId(),
+            sogns: [
+              {
+                artist: 'Kyary Pamyu Pamyu',
+                title: 'PONPONPON',
+              },
+            ],
+          })
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(200);
+            expect(db.data.users[0].lists.length)
+              .to.be.equal(3);
+            expect(res.body.sogns.length)
+              .to.be.above(0);
+            done();
+          });
       });
     });
-    it('When: POST /lists', () => {
-      it('And: User only send list name', () => {
-        // Then: Return status 200
-        //    -: Return 'ok'
-        //    -: Now user have a new list
-        //    -: Songs is a empty array
+
+    describe(`When: POST /lists
+      And: User only send list name`, () => {
+      it(`Then: Return status 200
+             -: Now user have a new list
+             -: Songs is a empty array`, (done) => {
+        chai.request(host)
+          .post(jhonSmithPATH)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .send({
+            name: generateId(),
+          })
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(200);
+            expect(db.data.users[0].lists.length)
+              .to.be.equal(4);
+            expect(res.body.sogns.length)
+              .to.equal(0);
+            done();
+          });
       });
     });
   });
