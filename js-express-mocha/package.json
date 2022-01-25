@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node src",
     "dev": "nodemon src --ignore ./database/db.json",
-    "test": "c8 mocha src/** --NODE_ENV=test --exit",
+    "test": "mocha src/** --NODE_ENV=test --exit",
+    "test:cov": "c8 mocha src/** --NODE_ENV=test --exit",
     "integration": "cypress run"
   },
   "author": "",
