@@ -11,7 +11,7 @@ const getAllUserList = (req, res) => {
     return consult;
   }, []);
 
-  if (!userLists?.lenght) {
+  if (userLists?.[0]) {
     res.status(200).json({
       lists: userLists,
     });
