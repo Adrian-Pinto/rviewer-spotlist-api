@@ -36,7 +36,7 @@ const getUserListById = (req, res) => {
 
 const postNewUserList = (req, res) => {
   const { userObject, body } = req;
-  const { name, sogns } = body;
+  const { name, songs } = body;
   let status;
   let message;
 
@@ -57,15 +57,15 @@ const postNewUserList = (req, res) => {
       name,
     });
 
-    const sognsId = sogns?.map((sogn) => {
-      let isSogn = db.data.sogns.find((dbSogn) => dbSogn.title === sogn.title);
+    const songsId = songs?.map((sogn) => {
+      let isSogn = db.data.songs.find((dbSogn) => dbSogn.title === sogn.title);
 
       if (!isSogn) {
         isSogn = {
           id: generateId(),
           ...sogn,
         };
-        db.data.sogns.push(isSogn);
+        db.data.songs.push(isSogn);
       }
 
       return isSogn;
@@ -75,7 +75,7 @@ const postNewUserList = (req, res) => {
       listId,
       userId: userObject.id,
       name,
-      sogns: sognsId || [],
+      songs: songsId || [],
     };
 
     db.data.lists.push(newList);

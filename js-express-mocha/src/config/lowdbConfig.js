@@ -10,7 +10,7 @@ db.read();
 db.data ||= {
   users: [],
   lists: [],
-  sogns: [],
+  songs: [],
 };
 db.write();
 

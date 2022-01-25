@@ -31,7 +31,7 @@
       "listId": "5d4968-802cf683af23-ad1c67",
       "userId": "4804ca-a41271d2c29d-7748e5",
       "name": "test_list",
-      "sogns": [
+      "songs": [
         {
           "id": "b975a5-33d285768899-9c7821",
           "artist": "Kyary Pamyu Pamyu",
@@ -48,7 +48,7 @@
       "listId": "aa0b1f-3f0a79b53fa3-54e8a8",
       "userId": "4804ca-a41271d2c29d-7748e5",
       "name": "test_list-02",
-      "sogns": [
+      "songs": [
         {
           "id": "62902f-64c8a0aac8e9-adbf50",
           "artist": "Dropkick Murphys",
@@ -57,7 +57,7 @@
       ]
     }
   ],
-  "sogns": [
+  "songs": [
     {
       "id": "62902f-64c8a0aac8e9-adbf50",
       "artist": "Dropkick Murphys",

@@ -1,8 +1,8 @@
 import generateId from '../utils/generateId.js';
-import sognSchema from '../models/songsModel.js';
+import songschema from '../models/songsModel.js';
 import db from '../config/lowdbConfig.js';
 
-const postSognsToList = (req, res) => {
+const postsongsToList = (req, res) => {
   const { userObject, body, params } = req;
   const { listId } = params;
   let status;
@@ -10,22 +10,22 @@ const postSognsToList = (req, res) => {
 
   const isUserList = userObject.lists.find((list) => list.listId === listId);
 
-  if (isUserList && sognSchema(body)) {
-    let isInSogns = db.data.sogns.find((sogn) => sogn.title === body.title);
+  if (isUserList && songschema(body)) {
+    let isInsongs = db.data.songs.find((sogn) => sogn.title === body.title);
     const dbList = db.data.lists.find((list) => list.listId === listId);
 
-    if (isInSogns) {
-      const isSognInList = dbList.sogns.find((sogn) => sogn.id === isInSogns.id);
+    if (isInsongs) {
+      const isSognInList = dbList.songs.find((sogn) => sogn.id === isInsongs.id);
 
-      if (!isSognInList) dbList.sogns.push({ ...isInSogns });
+      if (!isSognInList) dbList.songs.push({ ...isInsongs });
     } else {
-      isInSogns = {
+      isInsongs = {
         id: generateId(),
         ...body,
       };
 
-      dbList.sogns.push({ ...isInSogns });
-      db.data.sogns.push({ ...isInSogns });
+      dbList.songs.push({ ...isInsongs });
+      db.data.songs.push({ ...isInsongs });
     }
 
     status = 200;
@@ -41,5 +41,5 @@ const postSognsToList = (req, res) => {
 };
 
 export default {
-  postSognsToList,
+  postsongsToList,
 };

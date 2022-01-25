@@ -1,7 +1,7 @@
 import { stdout } from 'process';
 import express from 'express';
 import listsRouter from './routes/listsRouter.js';
-import sognsRouter from './routes/sognsRouter.js';
+import songsRouter from './routes/songsRouter.js';
 import './config/lowdbConfig.js';
 
 const api = express();
@@ -12,7 +12,7 @@ api.disable('x-powered-by');
 api.use(express.json());
 
 api.use('/api/v1/users', listsRouter);
-api.use('/api/v1/users', sognsRouter);
+api.use('/api/v1/users', songsRouter);
 
 api.listen(
   port,

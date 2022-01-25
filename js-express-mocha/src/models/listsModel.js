@@ -8,7 +8,7 @@ const schema = {
     name: {
       type: 'string',
     },
-    sogns: {
+    songs: {
       type: 'array',
       items: [
         {

@@ -9,11 +9,12 @@ chai.use(chaiHttp);
 
 db.data = JSON.parse(readFileSync(new URL('./test.db/testDb.json', import.meta.url)));
 
-// todo - Check if utils pass coverage with these tests
-
 describe('Testing endpoints', () => {
   const host = 'localhost:3001';
   const jhonSmithPATH = '/api/v1/users/4804ca-a41271d2c29d-7748e5/lists';
+  const existingListId = '/5d4968-802cf683af23-ad1c67/';
+  const secondListId = '/aa0b1f-3f0a79b53fa3-54e8a8/';
+  const unexistingListId = '/000000-111111111111-000000/';
 
   describe('Given: A User call API with incorrect auth', () => {
     const notJhonPATH = '/api/v1/users/000000-111111111111-000000/lists';
@@ -100,13 +101,13 @@ describe('Testing endpoints', () => {
       And: send a list pass Schema validation`, () => {
       it(`Then: Return status 200
              -: Now user have a new list
-             -: New list have a sogns`, (done) => {
+             -: New list have a songs`, (done) => {
         chai.request(host)
           .post(jhonSmithPATH)
           .auth('Jhon Smith', 'unsecuredpassword1234')
           .send({
             name: generateId(),
-            sogns: [
+            songs: [
               {
                 artist: 'Kyary Pamyu Pamyu',
                 title: 'PONPONPON',
@@ -118,7 +119,7 @@ describe('Testing endpoints', () => {
               .to.have.status(200);
             expect(db.data.users[0].lists.length)
               .to.be.equal(3);
-            expect(res.body.sogns.length)
+            expect(res.body.songs.length)
               .to.be.above(0);
             done();
           });
@@ -141,7 +142,7 @@ describe('Testing endpoints', () => {
               .to.have.status(200);
             expect(db.data.users[0].lists.length)
               .to.be.equal(4);
-            expect(res.body.sogns.length)
+            expect(res.body.songs.length)
               .to.equal(0);
             done();
           });
@@ -152,8 +153,6 @@ describe('Testing endpoints', () => {
   describe('Given: A User Jhon Smith call /lists/:listId end point', () => {
     describe(`When: GET /lists/:listId
       And: /:listId exist`, () => {
-      const existingListId = '/5d4968-802cf683af23-ad1c67/';
-
       it(`Then: Return status 200
              -: Return songs list JSON`, (done) => {
         chai.request(host)
@@ -162,15 +161,13 @@ describe('Testing endpoints', () => {
           .end((err, res) => {
             expect(res)
               .to.have.status(200)
-              .to.have.property('body').to.have.property('sogns');
+              .to.have.property('body').to.have.property('songs');
             done();
           });
       });
     });
     describe(`When: GET /lists/:listId
       And: /:listId not exist`, () => {
-      const unexistingListId = '/000000-111111111111-000000/';
-
       it('Then: Return status 401', (done) => {
         chai.request(host)
           .get(jhonSmithPATH + unexistingListId)
@@ -184,45 +181,113 @@ describe('Testing endpoints', () => {
     });
   });
 
-  describe('Given: A User X call songs end point', () => {
-    it('When: POST /lists/:listId/songs', () => {
-      it('And: /:listId not exist', () => {
-        // Then: Response status 409
-        //    -: Response 'User does not have this list'
+  describe('Given: A User Jhon Smith call songs end point', () => {
+    describe(`When: POST /lists/:listId/songs
+      And: /:listId not exist`, () => {
+      it(`Then: Response status 409
+             -: Response 'user does not have this list'`, (done) => {
+        chai.request(host)
+          .post(`${jhonSmithPATH + unexistingListId}songs`)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .send({
+            artist: 'Kyary Pamyu Pamyu',
+            title: 'PONPONPON',
+          })
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(409)
+              .to.have.property('text').to.be.equal('user does not have this list');
+            done();
+          });
       });
     });
-    it('When: POST /lists/:listId/songs', () => {
-      it('And: Songs dont pass Schema validation', {
-        // Then: Response status 409
-        //    -: Response 'User does not have this list'
+    describe(`When: POST /lists/:listId/songs
+      And: Songs dont pass Schema validation`, () => {
+      it(`Then: Response status 409
+             -: Response 'User does not have this list'`, (done) => {
+        chai.request(host)
+          .post(`${jhonSmithPATH + existingListId}songs`)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .send({
+            artist: 'Kyary Pamyu Pamyu',
+          })
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(409)
+              .to.have.property('text').to.be.equal('user does not have this list');
+            done();
+          });
       });
     });
-    it('When: POST /lists/:listId/songs', () => {
-      it('And: songs is in songs Database collection', () => {
-        it('And: songs is in songs User list', () => {
-          // Then: Response status 200
-          //    -: Response 'ok'
-          //    -: Database collection dont change
-          //    -: User.list array dont change
-        });
+    describe(`When: POST /lists/:listId/songs
+      And: songs is in songs Database collection
+      And: songs is in songs User list`, () => {
+      it(`Then: Response status 200
+             -: Response 'ok'
+             -: Songs database collection dont change
+             -: User.list array dont change`, (done) => {
+        chai.request(host)
+          .post(`${jhonSmithPATH + existingListId}songs`)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .send({
+            artist: 'Kyary Pamyu Pamyu',
+            title: 'PONPONPON',
+          })
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(200)
+              .to.have.property('text').to.be.equal('OK');
+            expect(db.data.lists[0].songs.length).to.equal(2);
+            expect(db.data.songs.length).to.equal(2);
+            done();
+          });
       });
     });
-    it('When: POST /lists/:listId/songs', () => {
-      it('And: songs is in songs Database collection', () => {
-        it('And: songs is not in songs User list', () => {
-          // Then: Response status 200
-          //    -: Response 'ok'
-          //    -: Database collection dont change
-          //    -: User.list array increase in number of songs send
-        });
+    describe(`When: POST /lists/:listId/songs
+      And: songs is in songs Database collection
+      And: songs is not in songs User list`, () => {
+      it(`Then: Response status 200
+             -: Response 'ok'
+             -: Songs database collection dont change
+             -: User.list array increase in number of songs send`, (done) => {
+        chai.request(host)
+          .post(`${jhonSmithPATH + secondListId}songs`)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .send({
+            artist: 'Kyary Pamyu Pamyu',
+            title: 'PONPONPON',
+          })
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(200)
+              .to.have.property('text').to.be.equal('OK');
+            expect(db.data.lists[1].songs.length).to.equal(2);
+            expect(db.data.songs.length).to.equal(2);
+            done();
+          });
       });
     });
-    it('When: POST /lists/:listId/songs', () => {
-      it('And: songs is not in songs Database collection', () => {
-        // Then: Response status 200
-        //    -: Response 'ok'
-        //    -: User.list array increase in number of songs send
-        //    -: Database collection increase in number of songs send
+    describe(`When: POST /lists/:listId/songs
+      And: songs is not in songs Database collection`, () => {
+      it(`Then: Response status 200
+             -: Response 'ok'
+             -: User.list array increase in number of songs send
+             -: Database collection increase in number of songs send`, (done) => {
+        chai.request(host)
+          .post(`${jhonSmithPATH + existingListId}songs`)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .send({
+            artist: 'Raven’s Jig',
+            title: 'Petit Chat Clandestin',
+          })
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(200)
+              .to.have.property('text').to.be.equal('OK');
+            expect(db.data.lists[0].songs.length).to.equal(3);
+            expect(db.data.songs.length).to.equal(3);
+            done();
+          });
       });
     });
   });
