@@ -149,16 +149,37 @@ describe('Testing endpoints', () => {
     });
   });
 
-  describe('Given: A User X call /lists/:listId end point', () => {
-    it('When: GET /lists/:listId', () => {
-      it('And: /:listId exist', () => {
-        // Then: Return status 200
-        //    -: Return songs list JSON
+  describe('Given: A User Jhon Smith call /lists/:listId end point', () => {
+    describe(`When: GET /lists/:listId
+      And: /:listId exist`, () => {
+      const existingListId = '/5d4968-802cf683af23-ad1c67/';
+
+      it(`Then: Return status 200
+             -: Return songs list JSON`, (done) => {
+        chai.request(host)
+          .get(jhonSmithPATH + existingListId)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(200)
+              .to.have.property('body').to.have.property('sogns');
+            done();
+          });
       });
     });
-    it('When: GET /lists/:listId', () => {
-      it('And: /:listId not exist', () => {
-        // Then: Return status 401
+    describe(`When: GET /lists/:listId
+      And: /:listId not exist`, () => {
+      const unexistingListId = '/000000-111111111111-000000/';
+
+      it('Then: Return status 401', (done) => {
+        chai.request(host)
+          .get(jhonSmithPATH + unexistingListId)
+          .auth('Jhon Smith', 'unsecuredpassword1234')
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(401);
+            done();
+          });
       });
     });
   });
