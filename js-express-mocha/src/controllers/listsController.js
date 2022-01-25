@@ -71,15 +71,17 @@ const postNewUserList = (req, res) => {
       return isSogn;
     });
 
-    db.data.lists.push({
+    const newList = {
       listId,
       userId: userObject.id,
       name,
       sogns: sognsId || [],
-    });
+    };
+
+    db.data.lists.push(newList);
 
     status = 200;
-    message = 'OK';
+    message = newList;
 
     db.write();
   }
