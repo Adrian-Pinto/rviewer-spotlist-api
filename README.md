@@ -76,7 +76,7 @@ npm run test:cov
 [^ Go top](#spotlist-api)
 ## Usage
 
-> The {domain-name} by default is http://localhost:3001. To use all of this endpoints you need to provide a basic authentication in the header of the request. You con find on  [users.json](data/users.json)
+> The {domain-name} by default is http://localhost:3001. To use all of this endpoints you need to provide a basic authentication in the header of the request. You can find on [users.json](data/users.json)
 
 ### Postman
 You can find postman collection file on [doc folder](./doc/spotlist.postman_collection.json)
