@@ -13,6 +13,7 @@ describe('Testing endpoints', () => {
   const host = 'localhost:3001';
   const jhonSmithPATH = '/api/v1/users/4804ca-a41271d2c29d-7748e5/lists';
   const danielschmitzPATH = '/api/v1/users/4b26b8-b52a5c1e0ab5-b68956/lists';
+  const laurelfitzPATH = '/api/v1/users/724dc5-dc682772780f-b2d57c/lists';
   const existingListId = '/5d4968-802cf683af23-ad1c67/';
   const secondListId = '/aa0b1f-3f0a79b53fa3-54e8a8/';
   const unexistingListId = '/000000-111111111111-000000/';
@@ -64,7 +65,7 @@ describe('Testing endpoints', () => {
     });
   });
 
-  describe('Given: A User Jhon Smith call /lists/ end point', () => {
+  describe('Given: A User call /lists/ end point', () => {
     describe(`When: GET /lists
       And: Use correct auth`, () => {
       it(`Then: Return status code 200
@@ -165,9 +166,40 @@ describe('Testing endpoints', () => {
           });
       });
     });
+
+    describe(`When: POST /lists
+      And: UserObject not have a lists property
+      And: Song POST don't exist on songs collection`, () => {
+      it(`Then: Return status 200
+             -: Now user have a new list
+             -: User.list have Songs
+             -: Songs collection have new song`, (done) => {
+        chai.request(host)
+          .post(laurelfitzPATH)
+          .auth('Laurel Fitz', 'abcdef1234')
+          .send({
+            name: generateId(),
+            songs: [
+              {
+                artist: 'Nobuo Uematsu',
+                title: 'Freya\'s theme',
+              },
+            ],
+          })
+          .end((err, res) => {
+            expect(res)
+              .to.have.status(200);
+            expect(db.data.songs.length)
+              .to.be.equal(3);
+            expect(res.body.songs.length)
+              .to.equal(1);
+            done();
+          });
+      });
+    });
   });
 
-  describe('Given: A User Jhon Smith call /lists/:listId end point', () => {
+  describe('Given: A User call /lists/:listId end point', () => {
     describe(`When: GET /lists/:listId
       And: /:listId exist`, () => {
       it(`Then: Return status 200
@@ -198,7 +230,7 @@ describe('Testing endpoints', () => {
     });
   });
 
-  describe('Given: A User Jhon Smith call songs end point', () => {
+  describe('Given: A User call songs end point', () => {
     describe(`When: POST /lists/:listId/songs
       And: /:listId not exist`, () => {
       it(`Then: Response status 409
@@ -255,7 +287,7 @@ describe('Testing endpoints', () => {
               .to.have.status(200)
               .to.have.property('text').to.be.equal('OK');
             expect(db.data.lists[0].songs.length).to.equal(2);
-            expect(db.data.songs.length).to.equal(2);
+            expect(db.data.songs.length).to.equal(3);
             done();
           });
       });
@@ -279,7 +311,7 @@ describe('Testing endpoints', () => {
               .to.have.status(200)
               .to.have.property('text').to.be.equal('OK');
             expect(db.data.lists[1].songs.length).to.equal(2);
-            expect(db.data.songs.length).to.equal(2);
+            expect(db.data.songs.length).to.equal(3);
             done();
           });
       });
@@ -302,7 +334,7 @@ describe('Testing endpoints', () => {
               .to.have.status(200)
               .to.have.property('text').to.be.equal('OK');
             expect(db.data.lists[0].songs.length).to.equal(3);
-            expect(db.data.songs.length).to.equal(3);
+            expect(db.data.songs.length).to.equal(4);
             done();
           });
       });
